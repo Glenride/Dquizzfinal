@@ -4,6 +4,7 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\MarkdownController;
 use App\Http\Controllers\PublicQuizController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SubmissionController;
@@ -26,6 +27,33 @@ Route::get('/pricing', function () {
 Route::get('/contact', function () {
     return Inertia::render('contact');
 })->name('contact');
+
+Route::get('/privacy', function () {
+    return Inertia::render('privacy');
+})->name('privacy');
+
+Route::get('/terms', function () {
+    return Inertia::render('terms');
+})->name('terms');
+
+// AI-readable site (ScrollLaunch Prompt 1). Generated from the single
+// registry in App\Support\MarkdownRegistry — llms.txt, llms-full.txt,
+// ai.txt and sitemap.xml are served live from it; robots.txt is the
+// public/ file kept in sync by `php artisan ai:generate`. The .md
+// routes are registered BEFORE /q/{slug} so a "slug.md" request is
+// never mistaken for a quiz slug. Results pages (/q/{slug}/results/…)
+// are token-gated and private: their .md form is a markdown 404.
+Route::get('/llms.txt', [MarkdownController::class, 'llms'])->name('md.llms');
+Route::get('/llms-full.txt', [MarkdownController::class, 'llmsFull'])->name('md.llms-full');
+Route::get('/ai.txt', [MarkdownController::class, 'ai'])->name('md.ai');
+Route::get('/sitemap.xml', [MarkdownController::class, 'sitemap'])->name('md.sitemap');
+Route::get('/api/md/_catalog', [MarkdownController::class, 'catalog'])->name('md.catalog');
+Route::get('/api/md/{path}', [MarkdownController::class, 'apiMd'])->where('path', '.*')->name('md.api');
+Route::options('/api/md/{path}', [MarkdownController::class, 'apiMd'])->where('path', '.*');
+Route::get('/index.md', [MarkdownController::class, 'index'])->name('md.index');
+Route::get('/q/{slug}.md', [MarkdownController::class, 'quiz'])->name('md.quiz');
+Route::get('/q/{slug}/results/{token}.md', [MarkdownController::class, 'quizResults'])->name('md.quiz-results');
+Route::get('/{page}.md', [MarkdownController::class, 'page'])->name('md.page');
 
 // Public Quiz Routes (no auth required)
 Route::get('/q/{slug}', [PublicQuizController::class, 'show'])->name('public.quiz.show');

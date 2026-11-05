@@ -274,7 +274,13 @@ export default function PublicQuiz({ quiz, already_completed = false }: QuizPage
 
     return (
         <>
-            <Head title={quiz.title} />
+            <Head title={quiz.title}>
+                <meta
+                    name="ai-summary"
+                    content={`Take the ${quiz.title} quiz on D'Quizz. ${quiz.description ?? 'Answer the questions and get a personalised result.'}`}
+                />
+                <link rel="alternate" type="text/markdown" href={`/q/${quiz.slug}.md`} />
+            </Head>
             <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background text-foreground transition-colors duration-500">
                 {/* Abstract Background Shapes */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
