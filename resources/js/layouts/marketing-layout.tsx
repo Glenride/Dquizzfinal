@@ -26,6 +26,7 @@ export default function MarketingLayout({ children }: PropsWithChildren) {
                     </div>
                     <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
                         <Link href="/" className="hover:text-[#E97451] transition-colors">Home</Link>
+                        <Link href="/how-it-works" className="hover:text-[#E97451] transition-colors">How it works</Link>
                         <Link href="/about" className="hover:text-[#E97451] transition-colors">About</Link>
                         <Link href="/pricing" className="hover:text-[#E97451] transition-colors">Pricing</Link>
                         <Link href="/contact" className="hover:text-[#E97451] transition-colors">Contact</Link>

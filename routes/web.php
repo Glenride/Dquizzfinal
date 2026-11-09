@@ -15,6 +15,10 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
+Route::get('/how-it-works', function () {
+    return Inertia::render('how-it-works');
+})->name('how-it-works');
+
 Route::get('/about', function () {
     return Inertia::render('about');
 })->name('about');
